@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="post-card">
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+
+        <h4>💬 Comments</h4>
+        {% for comment in comments %}
+            <div class="card p-2 mb-2">
+                <strong>{{ comment.name }}</strong>
+                <p>{{ comment.body }}</p>
+                <small class="text-muted">{{ comment.created_at }}</small>
+            </div>
+        {% empty %}
+            <p>No comments yet. Be the first to comment!</p>
+        {% endfor %}
+
+        <h4 class="mt-4">➕ Add a Comment</h4>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary w-100">Post Comment</button>
+        </form>
+    </div>
+{% endblock %}

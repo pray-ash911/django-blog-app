@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="post-card text-center">
+        <h2 class="text-danger">⚠️ Delete Post</h2>
+        <p>Are you sure you want to delete <strong>"{{ post.title }}"</strong>?</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100">🚨 Yes, Delete</button>
+        </form>
+        <a href="{% url 'home' %}" class="btn btn-secondary w-100 mt-2">↩️ Cancel</a>
+    </div>
+{% endblock %}

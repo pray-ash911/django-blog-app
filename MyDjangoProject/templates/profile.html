@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container text-center mt-5">
+        {% if user.is_authenticated and profile %}
+            <h2>👤 {{ profile.user.username }}'s Profile</h2>
+
+            <!-- Display Profile Picture if it Exists -->
+            {% if profile.profile_pic %}
+                <img src="{{ profile.profile_pic.url }}" class="rounded-circle border" width="150px">
+            {% else %}
+                <img src="https://via.placeholder.com/150" class="rounded-circle border" width="150px">
+            {% endif %}
+
+            <p><strong>Bio:</strong> {{ profile.bio|default:"No bio available" }}</p>
+            <p><strong>Location:</strong> {{ profile.location|default:"Unknown" }}</p>
+
+            <p><strong>Website:</strong>
+                {% if profile.website %}
+                    <a href="{{ profile.website }}" target="_blank">{{ profile.website }}</a>
+                {% else %}
+                    No website provided.
+                {% endif %}
+            </p>
+
+            <hr class="my-4">
+
+            <h4 class="mt-4">Edit Profile</h4>
+            <form method="post" enctype="multipart/form-data" class="text-start mx-auto" style="max-width: 500px;">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary w-100">💾 Save Changes</button>
+            </form>
+
+        {% else %}
+            <div class="alert alert-warning">
+                <p>You need to <a href="{% url 'login' %}">log in</a> to access your profile.</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

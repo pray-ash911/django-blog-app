@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="post-card">
+        <h2 class="text-center">✏️ Edit Post</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary w-100">💾 Save Changes</button>
+            <a href="{% url 'home' %}" class="btn btn-secondary w-100 mt-2">❌ Cancel</a>
+        </form>
+    </div>
+{% endblock %}
