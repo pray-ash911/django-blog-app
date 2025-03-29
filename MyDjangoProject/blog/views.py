@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, UpdateView, ListView
-from pyexpat.errors import messages
+from django.contrib import messages
 
 from .forms import BlogPostForm, ProfileForm, UserRegisterForm
 from django.shortcuts import render, redirect, get_object_or_404
@@ -65,7 +66,7 @@ def post_detail(request, post_id):
     else:
         form = CommentForm()
 
-    return render(request, 'post_detail.html', {'post': post, 'comments': comments, 'form': form})
+    return render(request, 'post_detail.html', {'post': post, 'comments': comments, 'form': form, 'user': request.user})
 
 @login_required  # Ensures only logged-in users access the profile page
 def profile(request):
@@ -75,10 +76,10 @@ def profile(request):
         if form.is_valid():
             form.save()
             return redirect('profile')
-        else:
-            form = ProfileForm(instance=profile)
+    else:
+        form = ProfileForm(instance=profile)
 
-        return render(request,'profile.html',{'form':form,'profile':profile})
+    return render(request,'profile.html',{'form':form,'profile':profile})
 
 def register(request):
     if request.method == "POST":
